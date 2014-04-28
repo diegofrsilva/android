@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/foto" />
+
+    <EditText
+        android:id="@+id/campo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:hint="@string/editTextHint" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </TextView>
+
+    <Button
+        android:id="@+id/botao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copiarTexto" >
+    </Button>
+
+</LinearLayout>
