@@ -15,7 +15,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.cadastroalunos.dao.AlunoDAO;
 import com.cadastroalunos.modelo.Aluno;
@@ -34,7 +33,12 @@ public class ListagemAlunosActivity extends ActionBarActivity {
 		this.listaAlunos.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int index, long id) {
-				Toast.makeText(ListagemAlunosActivity.this, "Selecionado na posição: " + index, Toast.LENGTH_LONG).show();
+				Aluno aluno = (Aluno) adapter.getItemAtPosition(index);
+
+				Intent intent = new Intent(ListagemAlunosActivity.this, FormularioActivity.class);
+				intent.putExtra(FormularioActivity.ALUNO_EXTRA, aluno);
+				
+				startActivity(intent);
 			}
 		});
 		this.listaAlunos.setOnItemLongClickListener(new OnItemLongClickListener() {

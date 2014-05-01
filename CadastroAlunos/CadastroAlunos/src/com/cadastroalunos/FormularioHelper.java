@@ -32,4 +32,12 @@ public class FormularioHelper {
 
 		return aluno;
 	}
+
+	public void colocarAlunoNoFormulario(Aluno alunoEdicao) {
+		editTextNome.setText(alunoEdicao.getNome());
+		editTextSite.setText(alunoEdicao.getSite());
+		editTextEndereco.setText(alunoEdicao.getEndereco());
+		editTextTelefone.setText(alunoEdicao.getTelefone());
+		seekBarNota.setProgress(Double.valueOf(alunoEdicao.getNota()).intValue());
+	}
 }

@@ -11,6 +11,7 @@ import com.cadastroalunos.modelo.Aluno;
 
 public class FormularioActivity extends ActionBarActivity {
 
+	public static final String ALUNO_EXTRA = "aluno";
 	protected AlunoDAO alunoDAO;
 
 	@Override
@@ -18,17 +19,26 @@ public class FormularioActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.formulario);
 		this.alunoDAO = new AlunoDAO(this);
-		
+
+		final FormularioHelper formularioHelper = new FormularioHelper(FormularioActivity.this);
+		final Aluno alunoEdicao = (Aluno) getIntent().getSerializableExtra(FormularioActivity.ALUNO_EXTRA);
 		Button button = (Button) findViewById(R.id.botaoGravar);
+		
+		if(alunoEdicao != null) {
+			button.setText(R.string.alterar);
+			formularioHelper.colocarAlunoNoFormulario(alunoEdicao);
+		}
+
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FormularioHelper formularioHelper = new FormularioHelper(FormularioActivity.this);
 				Aluno aluno = formularioHelper.pegaAlunoDoFormulario();
-				
-				alunoDAO = new AlunoDAO(FormularioActivity.this);
-				alunoDAO.insere(aluno);
-			
+
+				if(alunoEdicao == null) {
+					alunoDAO.insere(aluno);
+				} else {
+					alunoDAO.editar(alunoEdicao.getId(), aluno);
+				}
 				finish();
 			}
 		});

@@ -26,10 +26,14 @@ public class AlunoDAO extends SQLiteOpenHelper {
 		getWritableDatabase().insert(TABELA, null, toContentValues(aluno));
 	}
 
+	public void editar(Long id, Aluno aluno) {
+		getWritableDatabase().update(TABELA, toContentValues(aluno), "id=?", new String[] { id.toString() });
+	}
+
 	public void delete(Aluno aluno) {
 		getWritableDatabase().delete(TABELA, "id=?", new String[] { aluno.getId().toString() });
 	}
-	
+
 	private ContentValues toContentValues(Aluno aluno) {
 		ContentValues values = new ContentValues();
 		
@@ -41,6 +45,34 @@ public class AlunoDAO extends SQLiteOpenHelper {
 		values.put("foto", aluno.getFoto());
 		
 		return values;
+	}
+
+	public List<Aluno> getLista() {
+        List<Aluno> alunos = new ArrayList<Aluno>();
+
+        Cursor c = getWritableDatabase().query(TABELA, COLUNAS, null, null, null, null, null);
+
+        while (c.moveToNext()) {
+            Aluno aluno = fromCursor(c);
+            alunos.add(aluno);
+        }
+        c.close();
+
+        return alunos;
+    }
+
+	
+	private Aluno fromCursor(Cursor c) {
+		Aluno aluno = new Aluno();
+
+		aluno.setId(c.getLong(0));
+		aluno.setNome(c.getString(1));
+		aluno.setTelefone(c.getString(2));
+		aluno.setEndereco(c.getString(3));
+		aluno.setSite(c.getString(4));
+		aluno.setNota(c.getDouble(5));
+		aluno.setFoto(c.getString(6));
+		return aluno;
 	}
 	
 	@Override
@@ -62,32 +94,5 @@ public class AlunoDAO extends SQLiteOpenHelper {
 		dataBase.execSQL(ddl);
 
 		this.onCreate(dataBase);
-	}
-	
-	public List<Aluno> getLista() {
-        List<Aluno> alunos = new ArrayList<Aluno>();
-
-        Cursor c = getWritableDatabase().query(TABELA, COLUNAS, null, null, null, null, null);
-
-        while (c.moveToNext()) {
-            Aluno aluno = fromCursor(c);
-            alunos.add(aluno);
-        }
-        c.close();
-
-        return alunos;
-    }
-
-	private Aluno fromCursor(Cursor c) {
-		Aluno aluno = new Aluno();
-
-		aluno.setId(c.getLong(0));
-		aluno.setNome(c.getString(1));
-		aluno.setTelefone(c.getString(2));
-		aluno.setEndereco(c.getString(3));
-		aluno.setSite(c.getString(4));
-		aluno.setNota(c.getDouble(5));
-		aluno.setFoto(c.getString(6));
-		return aluno;
 	}
 }

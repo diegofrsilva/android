@@ -1,6 +1,10 @@
 package com.cadastroalunos.modelo;
 
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
+
+	private static final long serialVersionUID = -1597508272998112900L;
 
 	private Long id;
 	private String nome;
