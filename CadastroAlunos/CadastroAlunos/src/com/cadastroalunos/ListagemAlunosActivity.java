@@ -1,6 +1,7 @@
 package com.cadastroalunos;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
@@ -36,7 +37,7 @@ public class ListagemAlunosActivity extends ActionBarActivity {
 				Aluno aluno = (Aluno) adapter.getItemAtPosition(index);
 
 				Intent intent = new Intent(ListagemAlunosActivity.this, FormularioActivity.class);
-				intent.putExtra(FormularioActivity.ALUNO_EXTRA, aluno);
+				intent.putExtra(Extras.ALUNO_EXTRA, aluno);
 				
 				startActivity(intent);
 			}
@@ -85,20 +86,67 @@ public class ListagemAlunosActivity extends ActionBarActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		
-		menu.add("Ligar");
-		menu.add("Enviar SMS");
-		menu.add("Achar no Mapa");
-		menu.add("Navegar no site");
+		MenuItem menuItemLigar = menu.add("Ligar");
+		MenuItem menuItemSMS = menu.add("Enviar SMS");
+		MenuItem menuItemAcharNoMapa = menu.add("Achar no Mapa");
+		MenuItem menuItemNavegarNoSite = menu.add("Navegar no site");
 		MenuItem menuItemDeletar = menu.add("Deletar");
 		menu.add("Enviar E-mail");
 
+		menuItemLigar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse("tel:" + alunoSelecionado.getTelefone()));
+				startActivity(intent);
+				
+				return Boolean.FALSE;
+			}
+		});
+
+		menuItemSMS.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.putExtra("sms_body", "Um pedaço da mensagem");
+				intent.setData(Uri.parse("sms:" + alunoSelecionado.getTelefone()));
+				startActivity(intent);
+				
+				return Boolean.FALSE;
+			}
+		});
+		
+		menuItemAcharNoMapa.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.putExtra("sms_body", "Um pedaço da mensagem");
+				intent.setData(Uri.parse("geo:0,0?z=14&q=" + alunoSelecionado.getEndereco()));
+				startActivity(intent);
+
+				return Boolean.FALSE;
+			}
+		});
+		
+		menuItemNavegarNoSite.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("http://" + alunoSelecionado.getSiteFormatado()));
+				startActivity(intent);
+
+				return Boolean.FALSE;
+			}
+		});
+		
 		menuItemDeletar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				AlunoDAO alunoDAO = new AlunoDAO(ListagemAlunosActivity.this);
 				alunoDAO.delete(alunoSelecionado);
 				preencherLista();
-				return false;
+				
+				return Boolean.FALSE;
 			}
 		});
 	}

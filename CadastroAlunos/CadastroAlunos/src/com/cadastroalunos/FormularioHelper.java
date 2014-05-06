@@ -13,6 +13,7 @@ public class FormularioHelper {
 	private EditText editTextEndereco;
 	private EditText editTextTelefone;
 	private SeekBar seekBarNota;
+	private Aluno aluno;
 
 	public FormularioHelper(FormularioActivity formulario) {
 		this.editTextNome = (EditText) formulario.findViewById(R.id.nome);
@@ -23,12 +24,12 @@ public class FormularioHelper {
 	}
 	
 	public Aluno  pegaAlunoDoFormulario() {
-		Aluno aluno = new Aluno();
-		aluno.setNome(editTextNome.getEditableText().toString());
-		aluno.setSite(editTextSite.getEditableText().toString());
-		aluno.setEndereco(editTextEndereco.getEditableText().toString());
-		aluno.setTelefone(editTextTelefone.getEditableText	().toString());
-		aluno.setNota(seekBarNota.getProgress());
+		this.aluno = new Aluno();
+		this.aluno.setNome(editTextNome.getEditableText().toString());
+		this.aluno.setSite(editTextSite.getEditableText().toString());
+		this.aluno.setEndereco(editTextEndereco.getEditableText().toString());
+		this.aluno.setTelefone(editTextTelefone.getEditableText	().toString());
+		this.aluno.setNota(seekBarNota.getProgress());
 
 		return aluno;
 	}
@@ -39,5 +40,7 @@ public class FormularioHelper {
 		editTextEndereco.setText(alunoEdicao.getEndereco());
 		editTextTelefone.setText(alunoEdicao.getTelefone());
 		seekBarNota.setProgress(Double.valueOf(alunoEdicao.getNota()).intValue());
+		
+		this.aluno = alunoEdicao;
 	}
 }

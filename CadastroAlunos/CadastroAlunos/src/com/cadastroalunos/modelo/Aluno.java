@@ -74,4 +74,12 @@ public class Aluno implements Serializable {
 	public String toString() {
 		return nome;
 	}
+
+	public String getSiteFormatado() {
+		if (site.startsWith("http:")) {
+			return site;
+        } else {
+            return "http:" + site;
+        }
+	}
 }
