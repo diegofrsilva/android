@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.cadastroalunos.dao.AlunoDAO;
@@ -56,7 +55,7 @@ public class ListagemAlunosActivity extends ActionBarActivity {
 		AlunoDAO alunoDAO = new AlunoDAO(this);
 
 		this.listaAlunos = (ListView) findViewById(R.id.lista_alunos);
-		this.listaAlunos.setAdapter(new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunoDAO.getLista()));
+		this.listaAlunos.setAdapter(new ListaAlunosAdapter(this, alunoDAO.getLista()));
 		
 		alunoDAO.close();
 	}

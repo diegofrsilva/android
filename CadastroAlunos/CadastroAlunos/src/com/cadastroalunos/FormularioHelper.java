@@ -1,6 +1,9 @@
 package com.cadastroalunos;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.cadastroalunos.modelo.Aluno;
@@ -14,6 +17,7 @@ public class FormularioHelper {
 	private EditText editTextTelefone;
 	private SeekBar seekBarNota;
 	private Aluno aluno;
+	private ImageView foto;
 
 	public FormularioHelper(FormularioActivity formulario) {
 		this.editTextNome = (EditText) formulario.findViewById(R.id.nome);
@@ -21,10 +25,11 @@ public class FormularioHelper {
 		this.editTextEndereco = (EditText) formulario.findViewById(R.id.endereco);
 		this.editTextTelefone = (EditText) formulario.findViewById(R.id.telefone);
 		this.seekBarNota = (SeekBar) formulario.findViewById(R.id.nota);
+		this.foto = (ImageView) formulario.findViewById(R.id.imagem);
+		this.aluno = new Aluno();
 	}
 	
 	public Aluno  pegaAlunoDoFormulario() {
-		this.aluno = new Aluno();
 		this.aluno.setNome(editTextNome.getEditableText().toString());
 		this.aluno.setSite(editTextSite.getEditableText().toString());
 		this.aluno.setEndereco(editTextEndereco.getEditableText().toString());
@@ -41,6 +46,23 @@ public class FormularioHelper {
 		editTextTelefone.setText(alunoEdicao.getTelefone());
 		seekBarNota.setProgress(Double.valueOf(alunoEdicao.getNota()).intValue());
 		
+		if(alunoEdicao.getFoto() != null) {
+			carregaImagem(alunoEdicao.getFoto());
+		}
 		this.aluno = alunoEdicao;
+	}
+
+	public ImageView getFoto() {
+		return foto;
+	}
+
+	public void carregaImagem(String absolutePath) {
+		this.aluno.setFoto(absolutePath);
+		
+		Bitmap imagemFoto = BitmapFactory.decodeFile(absolutePath);
+		Bitmap imagenRedimensionada = Bitmap.createScaledBitmap(imagemFoto, 200, 200, Boolean.TRUE);
+
+		ImageView foto2 = getFoto();
+		foto2.setImageBitmap(imagenRedimensionada);
 	}
 }

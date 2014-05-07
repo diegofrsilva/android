@@ -15,7 +15,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/imagem_de_teste"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_launcher"
+            android:id="@+id/imagem"
+             />
 
         <TextView
             android:layout_width="wrap_content"
